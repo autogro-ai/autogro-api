@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "da166508-6f43-4ad2-bfff-abca5b988fa8",
+		"name": "AutoGro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7324628"
+	},
+	"item": [
+		{
+			"name": "farmers",
+			"item": [
+				{
+					"name": "User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/farmers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"farmers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/users",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Users List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/users",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-length": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ag_api_url}}/users/1/Deactivate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"Deactivate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/users/1/Activate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"Activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"T111est\",\n    \"lastName\" : \"Use111rsnf\",\n    \"emailAddress\" : \"te11st.user@autogroai.com\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/users/1",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "crops",
+			"item": [
+				{
+					"name": "crops",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "{cropId}",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
