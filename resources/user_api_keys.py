@@ -29,21 +29,6 @@ def get_user_keys(id):
     data = cursor.fetchall() 
     return jsonify(data)
 
-# Update  
-@user_keys_api.route('/users/<int:id>/keys', methods=['PUT'])
-def update_user_keys(id):
-    db = g.db
-    cursor = db.cursor()    
-
-    userData = request.get_json();
-
-    api_key = userData['api_key']
-    api_secret = userData['api_secret']    
-
-    cursor.execute('UPDATE user_api_keys SET api_key = %s, api_secret = %s WHERE userID = %i', (api_key, api_secret, id))
-  
-    return jsonify({'message': 'User updated successfully'})
-
 # Delete
 @user_keys_api.route('/users/<int:id>/keys/<string:api_key>', methods=['DELETE'])  
 def remove_user_keys(id, api_key):
