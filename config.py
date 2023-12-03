@@ -1,17 +1,17 @@
 import os
+from dotenv import load_dotenv
 
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
+load_dotenv()
 
-class DevelopmentConfig:
-    DEBUG = True
-    DATABASE_NAME = os.getenv('DATABASE_NAME') | 'autogro'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite')
-    SECRET_KEY = 'secret-key-goes-here'
+class Config:
+    AG_RUN_MODE = 'Development'
+    BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+    DebugMode = True
+    ServerHost='localhost'
+    ServerPort='5010'
 
-class TestingConfig(DevelopmentConfig):
-    TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'
-    
-class ProductionConfig(DevelopmentConfig):
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    dbHostName = os.getenv('AG_DB_HOST')
+    dbPortNumber = os.getenv('AG_DB_PORT')
+    dbName = os.getenv('AG_DB_NAME')
+    dbUser = os.getenv('AG_DB_USER')
+    dbPassword = os.getenv('AG_DB_PASSWORD')
