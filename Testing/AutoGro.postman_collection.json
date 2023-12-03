@@ -12,15 +12,19 @@
 				{
 					"name": "User",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/farmers",
+							"raw": "{{ag_api_url}}/users/1",
 							"host": [
-								"{{base_url}}"
+								"{{ag_api_url}}"
 							],
 							"path": [
-								"farmers"
+								"users",
+								"1"
 							]
 						}
 					},
@@ -182,7 +186,14 @@
 					"name": "crops",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "/crops/",
+							"path": [
+								"crops",
+								""
+							]
+						}
 					},
 					"response": []
 				},
