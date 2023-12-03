@@ -206,6 +206,105 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "UserKeys",
+			"item": [
+				{
+					"name": "Users Keys List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/users/1/keys",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"keys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignKeys",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"api_key\" : \"ddddddd\",\n    \"api_secret\" : \"secretdd\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/user_keys/1/keys",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"user_keys",
+								"1",
+								"keys"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Key",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{ag_api_url}}/users/1/keys/ddddddd",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"keys",
+								"ddddddd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

@@ -2,27 +2,30 @@ from flask import Blueprint, g, jsonify, request
 
 user_keys_api = Blueprint('user_keys', __name__) 
 
-
 # Create
-@user_keys_api.route('/users/<int:id>/keys', methods=['POST']) 
-def assign_user_keys():
+@user_keys_api.route('/user_keys/<int:id>/keys', methods=['POST']) 
+def assign_user_keys(id):
     db = g.db
     cursor = db.cursor()    
 
-    cursor.execute('INSERT INTO user_api_keys (userID, api_key, api_secret) VALUES (?, ?, ?)',
-                    (request.json['userID'], request.json['api_key'], request.json['api_secret'])
-                    )
+    userData = request.get_json();
 
+    api_key = userData['api_key']
+    api_secret = userData['api_secret']
+
+    cursor.execute('INSERT INTO user_api_keys (userID, api_key, api_secret) VALUES (%s, %s, %s)', (id, api_key, api_secret) )   
  
+    db.commit()
+
     return jsonify({'message': 'API keys assigned to user successfully'}), 201
 
 # Read
-@user_keys_api.route('/users/<int:id>/keys')
+@user_keys_api.route('/users/<int:id>/keys', methods=['GET'])
 def get_user_keys(id):
     db = g.db
     cursor = db.cursor()    
 
-    cursor.execute('SELECT * FROM user_api_keys WHERE userID = ?', (id,))
+    cursor.execute('SELECT * FROM user_api_keys WHERE userID = %(id)s', {'id': id})
     data = cursor.fetchall() 
     return jsonify(data)
 
@@ -32,16 +35,22 @@ def update_user_keys(id):
     db = g.db
     cursor = db.cursor()    
 
-    cursor.execute('UPDATE user_api_keys SET name = ?, email = ? WHERE id = ?', 
-              (request.json['name'], request.json['email'], id))
+    userData = request.get_json();
+
+    api_key = userData['api_key']
+    api_secret = userData['api_secret']    
+
+    cursor.execute('UPDATE user_api_keys SET api_key = %s, api_secret = %s WHERE userID = %i', (api_key, api_secret, id))
   
     return jsonify({'message': 'User updated successfully'})
 
 # Delete
-@user_keys_api.route('/users/<int:userID>/keys/<string:api_key>', methods=['DELETE'])  
+@user_keys_api.route('/users/<int:id>/keys/<string:api_key>', methods=['DELETE'])  
 def remove_user_keys(id, api_key):
     db = g.db
     cursor = db.cursor()    
    
-    cursor.execute('DELETE FROM user_api_keys WHERE userID = ? AND api_key = ?', (id, api_key))
-    return jsonify({'message': 'User deleted successfully'})
+    cursor.execute('DELETE FROM user_api_keys WHERE (userID) = %(id)s AND (api_key) = %(api_key)s', {'id': id, 'api_key': api_key})
+
+    db.commit()
+    return jsonify({'message': 'Key removed successfully'})
