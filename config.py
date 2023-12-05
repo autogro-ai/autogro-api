@@ -15,3 +15,7 @@ class Config:
     dbName = os.getenv('AG_DB_NAME')
     dbUser = os.getenv('AG_DB_USER')
     dbPassword = os.getenv('AG_DB_PASSWORD')
+
+    dbOGName = os.getenv('AG_DB_OG_NAME')
+    dbOGUser = os.getenv('AG_DB_OG_USER')
+    dbOGPassword = os.getenv('AG_DB_OG_PASSWORD')    
