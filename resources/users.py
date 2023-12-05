@@ -1,4 +1,6 @@
 from flask import Blueprint, g, jsonify, request
+from tools.email_sender import EmailSender
+from enums import MessageType
 
 users_api = Blueprint('users', __name__) 
 
@@ -113,3 +115,30 @@ def activate_user(id):
     db.commit()  
 
     return jsonify({'message': 'User Activated'})
+
+#Send out welcome email
+
+def sendEmail(message_type, user_info, device_info):
+
+    email_sender = EmailSender()
+    subject = ""
+    body = ""
+    recipient_email = user_info['emailAddress']    
+    sendAsHTML = True
+
+    name =  f"{user_info['firstName']}  {user_info['lastName']}"
+
+    if message_type == MessageType.DEVICE_USER_INVITED:
+        subject = f"AutoGro Invitation to join a new device"
+        body = f"Hello {name},\n\n"\
+                f"You have been invited to manage a new device: {device_info['name']}!\n\n"\
+                f"Login to manage the device: https://autogroai.com/"
+
+
+    # Call the send_email method from EmailSender
+    email_sender.send_email(recipient_email, subject, body)    
+    email_sender.send_email(
+        to=recipient_email,
+        subject=subject,
+        body=body, sendAsHTML=True
+    )
