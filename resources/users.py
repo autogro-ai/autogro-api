@@ -10,34 +10,32 @@ def list_users():
     db = g.db
     cursor = g.db.cursor()
     cursor.execute('SELECT userID, FirstName, LastName, EmailAddress, active FROM users')
-    data = cursor.fetchall() 
+    # Fetch all rows as a list of dictionaries
+    columns = [col[0] for col in cursor.description]
+    data = [dict(zip(columns, row)) for row in cursor.fetchall()]
     return jsonify(data)
 
 # Create
 @users_api.route('/users', methods=['POST']) 
 def create_user():
-    db = g.db
     cursor = g.db.cursor()
-
     userData = request.get_json();
 
     firstName = userData['firstName']
     lastName = userData['lastName']  
     emailAddress = userData['emailAddress']
 
-
     cursor.execute('INSERT INTO users (FirstName, LastName, EmailAddress) VALUES (%s, %s, %s)', (firstName, lastName, emailAddress))
     
     userID = cursor.lastrowid
 
-    db.commit()
+    g.db.commit()
 
     return jsonify({'userID': userID, 'message': 'User created successfully'}), 201
 
 # Read
 @users_api.route('/users/<int:id>')
 def get_user(id):
-    db = g.db
     cursor = g.db.cursor()
     cursor.execute('SELECT * FROM users WHERE userID = %(id)s', {'id': id})
     data = cursor.fetchall() 
@@ -46,7 +44,6 @@ def get_user(id):
 # Update  
 @users_api.route('/users/<int:id>', methods=['PUT'])
 def update_user(id):
-    db = g.db
     cursor = g.db.cursor()    
     
     query = """
@@ -65,11 +62,9 @@ def update_user(id):
         "userID": id
     }
     
-
     cursor.execute(query, data)    
 
-    db.commit()
-
+    g.db.commit()
     msg = 'User updated successfully'
 
     return jsonify({'message': msg})
@@ -77,42 +72,42 @@ def update_user(id):
 # DEACTIVATE by way of DELETE
 @users_api.route('/users/<int:id>', methods=['DELETE'])  
 def delete_user(id):
-    db = g.db
+
     cursor = g.db.cursor()    
 
     query = "UPDATE users SET active = %s WHERE userID = %s"
     active_value = 0
 
     cursor.execute(query, (active_value, id))  
-    db.commit()  
+    g.db.commit()  
 
     return jsonify({'message': 'User deactivated'})
 
 # DEACTIVATE
 @users_api.route('/users/<int:id>/Deactivate', methods=['PUT'])  
 def deactivate_user(id):
-    db = g.db
+
     cursor = g.db.cursor()    
 
     query = "UPDATE users SET active = %s WHERE userID = %s"
     active_value = 0
 
     cursor.execute(query, (active_value, id))  
-    db.commit()  
+    g.db.commit()  
 
     return jsonify({'message': 'User Deactivated'})
 
 # ACTIVATE
 @users_api.route('/users/<int:id>/Activate', methods=['PUT'])  
 def activate_user(id):
-    db = g.db
+
     cursor = g.db.cursor()    
 
     query = "UPDATE users SET active = %s WHERE userID = %s"
     active_value = 1
 
     cursor.execute(query, (active_value, id))  
-    db.commit()  
+    g.db.commit()  
 
     return jsonify({'message': 'User Activated'})
 

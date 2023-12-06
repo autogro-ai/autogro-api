@@ -2,15 +2,31 @@ from flask import Blueprint, g, jsonify, request
 from tools.email_sender import EmailSender
 from enums import MessageType
 
-sensors_api = Blueprint('sensors', __name__) 
+groinstances_api = Blueprint('groinstances', __name__) 
 
-##### OG Rig #####
-@sensors_api.route('/og_autogro_sensor', methods=["GET"])
+# ASSIGN USER TO DEVICE
+@groinstances_api.route('/grodevices/<int:instanceID>/AssignOwner/<int:ownerID>', methods=['PUT'])  
+def device_assign_user(instanceID, ownerID):
+
+    accessPolicyData = request.get_json();
+    #{ ownerID: int, access: [ { userID: int, access: string } ] }
+
+    cursor = g.db.cursor()    
+
+    query = "UPDATE gro_instances SET ownerID = %s WHERE instanceID = %s"
+
+    cursor.execute(query, (ownerID, instanceID))  
+    g.db.commit()  
+
+    return jsonify({'message': 'User assigned to gro instance'})
+
+##### GET Device Component Data for g_autogro_sensor #####
+@groinstances_api.route('/growdevices/<string:deviceID>/components/<string:componentTypeID>/<string:componentID>', methods=["GET"])
 def og_autogro_sensor():
     holder_data = []
-    db = g.dbog
-    cur = g.dbog.cursor()
-    cur.execute('SELECT soil_1_wet, soil_2_wet, soil_3_wet, soil_4_wet, soil_5_wet, tds, ph, CAST(accessed AS CHAR) AS accessed_str FROM sensor_data_autogro ORDER BY id DESC LIMIT 100')
+    cursor = g.db.cursor()
+
+    cursor.execute('SELECT soil_1_wet, soil_2_wet, soil_3_wet, soil_4_wet, soil_5_wet, tds, ph, CAST(accessed AS CHAR) AS accessed_str FROM sensor_data_autogro ORDER BY id DESC LIMIT 100')
     row_headers=[x[0] for x in cur.description] #this will extract row headers
     results = cur.fetchall()
     print(results)
@@ -24,7 +40,7 @@ def og_autogro_sensor():
 
 
 ########### OG Pump ###########
-@sensors_api.route('/og_pump_autogro', methods=["GET"])
+@groinstances_api.route('/og_pump_autogro', methods=["GET"])
 def og_pump_autogro():
     page = request.args.get('page', default=1, type=int)
     items_per_page = 100
@@ -53,7 +69,7 @@ def og_pump_autogro():
     # return json.dumps(json_data)
 
 ##### OG Send Sensor Data #####
-@sensors_api.route("/autogro_send_sensor_data", methods=["POST"])
+@groinstances_api.route("/autogro_send_sensor_data", methods=["POST"])
 def autogro_send_sensor_data():
     db = g.dbog
     cur = g.dbog.cursor()
@@ -81,7 +97,7 @@ def autogro_send_sensor_data():
 
 
 ######### OG AutoGro Send Pump Data#########
-@sensors_api.route("/autogro_send_pump_data", methods=["POST"])
+@groinstances_api.route("/autogro_send_pump_data", methods=["POST"])
 def autogro_send_pump_data():
     db = g.dbog
     cur = g.dbog.cursor()
@@ -110,7 +126,7 @@ def autogro_send_pump_data():
 
 ####TEST for APP #####
 ######### OG AutoGro Send Pump Data#########
-@sensors_api.route("/send_data_test", methods=["POST"])
+@groinstances_api.route("/send_data_test", methods=["POST"])
 def send_data_test():
     db = g.dbog
     cur = g.dbog.cursor()
