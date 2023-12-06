@@ -18,13 +18,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ag_api_url}}/users/1",
+							"raw": "{{ag_api_url}}/users/6",
 							"host": [
 								"{{ag_api_url}}"
 							],
 							"path": [
 								"users",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -51,12 +51,12 @@
 							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
 						},
 						"url": {
-							"raw": "{{ag_api_url}}/users",
+							"raw": "{{ag_api_url}}/growmodels",
 							"host": [
 								"{{ag_api_url}}"
 							],
 							"path": [
-								"users"
+								"growmodels"
 							]
 						}
 					},
@@ -299,6 +299,240 @@
 								"1",
 								"keys",
 								"ddddddd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "sensors",
+			"item": [
+				{
+					"name": "og_pump_autogro",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/og_pump_autogro",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"og_pump_autogro"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GroModels",
+			"item": [
+				{
+					"name": "Model",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels/1",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Harrison\",\n    \"modelNumber\" : \"1\",\n    \"modelVersion\" : \"0.1\",\n    \"modelCodeName\" : \"Sunrise\",\n    \"modelFamilyName\" : \"Genesis\",\n    \"modelReleaseDate\" : \"12-05-2023 19:00:00\",\n    \"components\" : [\n        {\"componentTypeID\" : \"sensorTemp9001\"},\n        {\"componentTypeID\" : \"sensorSoil0300\"},\n        {\"componentTypeID\" : \"sensorPh4000\"},\n        {\"componentTypeID\" : \"sensorSoil9900\"},\n        {\"componentTypeID\" : \"sensorHum0008\"}\n    ]\n\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Models",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Model",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-length": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels/1/Deactivate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels",
+								"1",
+								"Deactivate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Model",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels/1/Activate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels",
+								"1",
+								"Activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Model",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Harrison\",\n    \"modelNumber\" : \"1\",\n    \"modelVersion\" : \"0.1\",\n    \"modelCodeName\" : \"Sunrise\",\n    \"modelFamilyName\" : \"Genesis\",\n    \"modelReleaseDate\" : \"12-05-2023 19:00:00\",\n    \"components\" : [\n        {\"componentTypeID\" : \"sensorTemp99999\"},\n        {\"componentTypeID\" : \"sensorSoil0300\"},\n        {\"componentTypeID\" : \"sensorPh4000\"},\n        {\"componentTypeID\" : \"sensorSoil9900\"},\n        {\"componentTypeID\" : \"sensorHum0008\"}\n    ]\n\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels/1",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GroInstances",
+			"item": [
+				{
+					"name": "Assign Owner",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gromodels/1/Activate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gromodels",
+								"1",
+								"Activate"
 							]
 						}
 					},
