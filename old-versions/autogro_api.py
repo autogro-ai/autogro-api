@@ -35,10 +35,10 @@ now = datetime.datetime.now()
 # AutoGro DB
 DB_CONFIG = {
     'user': 'autogro',
-    'password': 'yellow???876',
+    'password': '',
     'host': 'autogro.mysql.pythonanywhere-services.com',
     'port': '3306',
-    'database': 'autogro$autogro_db',
+    'database': '',
 }
 
 def get_db():

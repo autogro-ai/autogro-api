@@ -26,8 +26,8 @@ load_dotenv(dotenv_path=env_path)
 
 # AutoGro DB
 DB_CONFIG = {
-    'user': 'agapi',
-    'password': 'HUf1ZT$cDYFcO8nYu!FH',
+    'user': '',
+    'password': '',
     'host': 'localhost',
     'port': '8889',
     'database': 'autogro',
