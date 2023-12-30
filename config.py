@@ -8,7 +8,7 @@ class Config:
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
     DebugMode = True
     ServerHost='localhost'
-    ServerPort='5010'
+    ServerPort='5000'
 
     dbHostName = os.getenv('AG_DB_HOST')
     dbPortNumber = os.getenv('AG_DB_PORT')

@@ -1,10 +1,5 @@
 from flask import Flask, redirect, render_template, request, url_for, g, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import login_required, login_user, logout_user, UserMixin
-from werkzeug.security import check_password_hash, generate_password_hash
 import mysql.connector
-from flask_marshmallow import Marshmallow
-from flask_cors import CORS
 import json
 import datetime
 from dotenv import load_dotenv
@@ -15,9 +10,6 @@ import os
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
-ma = Marshmallow(app)
-cors = CORS(app)
-
 
 load_dotenv()
 env_path = Path('.')/'.env'
@@ -35,10 +27,10 @@ now = datetime.datetime.now()
 # AutoGro DB
 DB_CONFIG = {
     'user': 'autogro',
-    'password': '',
+    'password': 'yellow???876',
     'host': 'autogro.mysql.pythonanywhere-services.com',
     'port': '3306',
-    'database': '',
+    'database': 'autogro$autogro_db',
 }
 
 def get_db():
@@ -198,184 +190,7 @@ def send_data_test():
         conn.close()
     return "Data inserted successfully"
 
-
 users = []
-
-# Endpoint for user registration
-@app.route("/register", methods=["POST"])
-def register():
-    data = request.json
-    username = data.get("username")
-    email = data.get("email")
-    password = data.get("password")
-
-    if not username or not email or not password:
-        return jsonify({"message": "Please provide username, email, and password"}), 400
-
-    # Check if the username or email already exists
-    for user in users:
-        if user["username"] == username:
-            return jsonify({"message": "Username already exists"}), 400
-        if user["email"] == email:
-            return jsonify({"message": "Email already exists"}), 400
-
-    # Store the user data (you should use a real database for this)
-    new_user = {
-        "username": username,
-        "email": email,
-        "password": password
-    }
-    users.append(new_user)
-
-    conn = get_db()
-    cur = conn.cursor()
-    insert_query = "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)"
-    cur.execute(insert_query, (username, email, password))
-    print(insert_query, 'Sucess')
-    # Check if the user is already in the autogro_app_api table
-    cur.execute('SELECT username FROM autogro_app_api WHERE username = %s', (username,))
-    existing_user = cur.fetchone()
-
-    if not existing_user:
-        # Handle POST request here
-        conn = get_db()
-        cur = conn.cursor()
-        username = request.json.get("username")
-        valve1_active = request.json.get("valve1_active")
-        valve1_time = request.json.get("valve1_time")
-        valve1_duration = request.json.get("valve1_duration")
-        valve2_active = request.json.get("valve2_active")
-        valve2_time = request.json.get("valve2_time")
-        valve2_duration = request.json.get("valve2_duration")
-        valve3_active = request.json.get("valve3_active")
-        valve3_time = request.json.get("valve3_time")
-        valve3_duration = request.json.get("valve3_duration")
-        valve4_active = request.json.get("valve4_active")
-        valve4_time = request.json.get("valve4_time")
-        valve4_duration = request.json.get("valve4_duration")
-        valve5_active = request.json.get("valve5_active")
-        valve5_time = request.json.get("valve5_time")
-        valve5_duration = request.json.get("valve5_duration")
-        water_refresh_cycle = request.json.get("water_refresh_cycle")
-        water_refresh_cycle_length = request.json.get("water_refresh_cycle_length")
-        ph_sensor_enabled = request.json.get("ph_sensor_enabled")
-        balance_ph = request.json.get("balance_ph")
-        ideal_ph = request.json.get("ideal_ph")
-        ph_spread = request.json.get("ph_spread")
-        ph_valve_time = request.json.get("ph_valve_time")
-        ph_balance_interval = request.json.get("ph_balance_interval")
-        ph_balance_water_limit = request.json.get("ph_balance_water_limit")
-        ph_balance_retry = request.json.get("ph_balance_retry")
-        ph_sensor_port = request.json.get("ph_sensor_port")
-        enable_web_api = request.json.get("enable_web_api")
-        pump_url = request.json.get("pump_url")
-        sensor_url = request.json.get("sensor_url")
-        enable_tds_meter = request.json.get("enable_tds_meter")
-        tds_samples = request.json.get("tds_samples")
-        room_temperature = request.json.get("room_temperature")
-        sensor_time_api = request.json.get("sensor_time_api")
-        soil_dry = request.json.get("soil_dry")
-        soil_wet = request.json.get("soil_wet")
-        number_of_soil_sensors = request.json.get("number_of_soil_sensors")
-        accessed = request.json.get("accessed")
-
-
-        # This creates default values for users when they register through the app
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        # Create a dictionary with all parameters and initialize them
-        user_data = {
-            "accessed": now,
-            "balance_ph": None,
-            "enable_tds_meter": None,
-            "enable_web_api": None,
-            "id": 1,
-            "ideal_ph": None,
-            "number_of_soil_sensors": None,
-            "ph_balance_interval": None,
-            "ph_balance_retry": None,
-            "ph_balance_water_limit": None,
-            "ph_sensor_enabled": None,
-            "ph_sensor_port": None,
-            "ph_spread": None,
-            "ph_valve_time": None,
-            "pump_url": None,
-            "room_temperature": None,
-            "sensor_time_api": None,
-            "sensor_url": None,
-            "soil_dry": None,
-            "soil_wet": None,
-            "tds_samples": None,
-            "username": "sam",
-            "valve1_active": "True",
-            "valve1_duration": "69",
-            "valve1_time": "100",
-            "valve2_active": "",
-            "valve2_duration": "",
-            "valve2_time": "",
-            "valve3_active": None,
-            "valve3_duration": None,
-            "valve3_time": None,
-            "valve4_active": None,
-            "valve4_duration": None,
-            "valve4_time": None,
-            "valve5_active": None,
-            "valve5_duration": None,
-            "valve5_time": None,
-            "water_refresh_cycle": None,
-            "water_refresh_cycle_length": None
-        }
-
-        # Now you can update specific fields as needed
-        user_data["balance_ph"] = 123.45  # Update balance_ph, for example
-        user_data["enable_tds_meter"] = True  # Update enable_tds_meter, for example
-        user_data["enable_web_api"] = False  # Update enable_web_api, for example
-        user_data["id"] = 2  # Update id, for example
-        user_data["ph_balance_interval"] = 60  # Update ph_balance_interval, for example
-        user_data["ph_balance_retry"] = 3  # Update ph_balance_retry, for example
-        user_data["ph_balance_water_limit"] = 500  # Update ph_balance_water_limit, for example
-        user_data["ph_sensor_enabled"] = True  # Update ph_sensor_enabled, for example
-        user_data["ph_sensor_port"] = "/dev/ttyUSB0"  # Update ph_sensor_port, for example
-        user_data["ph_spread"] = 0.1  # Update ph_spread, for example
-        user_data["ph_valve_time"] = 10  # Update ph_valve_time, for example
-        user_data["pump_url"] = "http://example.com/pump"  # Update pump_url, for example
-        user_data["room_temperature"] = 25.0  # Update room_temperature, for example
-        user_data["sensor_time_api"] = "http://example.com/sensor-time"  # Update sensor_time_api, for example
-        user_data["sensor_url"] = "http://example.com/sensor"  # Update sensor_url, for example
-        user_data["soil_dry"] = 300  # Update soil_dry, for example
-        user_data["soil_wet"] = 700  # Update soil_wet, for example
-        user_data["tds_samples"] = 5  # Update tds_samples, for example
-        user_data["valve2_active"] = "False"  # Update valve2_active, for example
-        user_data["valve2_duration"] = "50"  # Update valve2_duration, for example
-        user_data["valve3_active"] = "Yes"  # Update valve3_active, for example
-        user_data["valve3_duration"] = "60"  # Update valve3_duration, for example
-        user_data["valve3_time"] = "250"  # Update valve3_time, for example
-        user_data["valve4_active"] = "True"  # Update valve4_active, for example
-        user_data["valve4_duration"] = "70"  # Update valve4_duration, for example
-        user_data["valve4_time"] = "300"  # Update valve4_time, for example
-        user_data["valve5_active"] = "False"  # Update valve5_active, for example
-        user_data["valve5_duration"] = "80"  # Update valve5_duration, for example
-        user_data["valve5_time"] = "350"  # Update valve5_time, for example
-        user_data["water_refresh_cycle"] = "Daily"  # Update water_refresh_cycle, for example
-        user_data["water_refresh_cycle_length"] = "10 hours"  # Update water_refresh_cycle_length, for example
-
-        try:
-            cur.execute('INSERT INTO autogro_app_api (username, valve1_active, valve1_time, valve1_duration, valve2_active, valve2_time, valve2_duration, valve3_active, valve3_time, valve3_duration, valve4_active, valve4_time, valve4_duration, valve5_active, valve5_time, valve5_duration, water_refresh_cycle, water_refresh_cycle_length, ph_sensor_enabled, balance_ph, ideal_ph, ph_spread, ph_valve_time, ph_balance_interval, ph_balance_water_limit, ph_balance_retry, ph_sensor_port, enable_web_api, pump_url, sensor_url, enable_tds_meter, tds_samples, room_temperature, sensor_time_api, soil_dry, soil_wet, number_of_soil_sensors, accessed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (
-                user_data["username"], user_data["valve1_active"], user_data["valve1_time"], user_data["valve1_duration"], user_data["valve2_active"], user_data["valve2_time"], user_data["valve2_duration"], user_data["valve3_active"], user_data["valve3_time"], user_data["valve3_duration"], user_data["valve4_active"], user_data["valve4_time"], user_data["valve4_duration"], user_data["valve5_active"], user_data["valve5_time"], user_data["valve5_duration"], user_data["water_refresh_cycle"], user_data["water_refresh_cycle_length"], user_data["ph_sensor_enabled"], user_data["balance_ph"], user_data["ideal_ph"], user_data["ph_spread"], user_data["ph_valve_time"], user_data["ph_balance_interval"], user_data["ph_balance_water_limit"], user_data["ph_balance_retry"], user_data["ph_sensor_port"], user_data["enable_web_api"], user_data["pump_url"], user_data["sensor_url"], user_data["enable_tds_meter"], user_data["tds_samples"], user_data["room_temperature"], user_data["sensor_time_api"], user_data["soil_dry"], user_data["soil_wet"], user_data["number_of_soil_sensors"], user_data["accessed"]
-            ))
-            conn.commit()
-        except Exception as e:
-            print("Error inserting data:", e)
-            conn.rollback()
-        finally:
-            cur.close()
-            conn.close()
-        # now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        return "App Data inserted to API Successfully"
-
-    else:
-        return "Unsupported HTTP method"
-
-
 
 ##### AutoGro APP API
 
@@ -529,45 +344,8 @@ def autogro_app_api(username):
             conn.close()
         return "API setting has been updated from app"
 
-
-        # try:
-        #     cur.execute('INSERT INTO autogro_app_api (username, valve1_active, valve1_time, valve1_duration, valve2_active, valve2_time, valve2_duration, valve3_active, valve3_time, valve3_duration, valve4_active, valve4_time, valve4_duration, valve5_active, valve5_time, valve5_duration, water_refresh_cycle, water_refresh_cycle_length, ph_sensor_enabled, balance_ph, ideal_ph, ph_spread, ph_valve_time, ph_balance_interval, ph_balance_water_limit, ph_balance_retry, ph_sensor_port, enable_web_api, pump_url, sensor_url, enable_tds_meter, tds_samples, room_temperature, sensor_time_api, soil_dry, soil_wet, number_of_soil_sensors, accessed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)', (username, valve1_active, valve1_time, valve1_duration, valve2_active, valve2_time, valve2_duration, valve3_active, valve3_time, valve3_duration, valve4_active, valve4_time, valve4_duration, valve5_active, valve5_time, valve5_duration, water_refresh_cycle, water_refresh_cycle_length, ph_sensor_enabled, balance_ph, ideal_ph, ph_spread, ph_valve_time, ph_balance_interval, ph_balance_water_limit, ph_balance_retry, ph_sensor_port, enable_web_api, pump_url, sensor_url, enable_tds_meter, tds_samples, room_temperature, sensor_time_api, soil_dry, soil_wet, number_of_soil_sensors, accessed))
-        #     conn.commit()
-        #     print("API setting has been updated from app")
-        # except Exception as e:
-        #     print("Error inserting data:", e)
-        #     conn.rollback()
-        # finally:
-        #     cur.close()
-        #     conn.close()
-        # return "API setting has been updated from app"
-
     else:
         return "Unsupported HTTP method"
-
-
-###########################################
-
-
-########### OG Pump ###########
-# @app.route('/get_test_data', methods=["GET"])
-# def get_test_data():
-#     page = request.args.get('page', default=1, type=int)
-#     items_per_page = 100
-#     conn = get_db()
-#     cur = conn.cursor()
-#     # Calculate the offset based on the page number and items per page
-#     offset = (page - 1) * items_per_page
-#     # Retrieve the data for the current page
-#     cur.execute(f'SELECT pump_status, flow_meter_rotations, valve_1, accessed from send_data_test')
-#     row_headers = [x[0] for x in cur.description]
-#     results = cur.fetchall()
-#     json_data = []
-#     for result in results:
-#         json_data.append(dict(zip(row_headers, result)))
-#     return jsonify(json_data)
-#     return json.dumps(json_data)
-
 
 
 
