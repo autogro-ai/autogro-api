@@ -1,0 +1,38 @@
+networks:
+  autogroai:
+    driver: bridge
+services:
+  db:
+    build:
+      context: ./mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: password1234
+    ports:
+      - 3306:3306
+    volumes:
+      - ../mysql/sql_scripts:/docker-entrypoint-initdb.d
+    networks:
+      - autogroai
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_ROOT_PASSWORD: password1234
+    networks:
+      - autogroai      
+  apiservice:
+    build: ./apiService/
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 5010:5010
+    networks:
+      - autogroai      

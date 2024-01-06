@@ -1,7 +1,30 @@
 # AutoGro API v1
 
-The AutoGro API offers access to the backend database
+The AutoGro API provides basic CRUD access to the backend database that holds Users and Device data
 
+# QuickStart
+
+Run this API locally by installing Docker Desktop, and then running: 
+
+``` docker compose up ```
+
+This will bring up the application using the default settings -- running at localhost:5010
+
+Run Postman using the sample provided under the Testing folder.
+
+# Technology
+
+### API Service 
+A python flask API service using mysql-connector for DB connection
+### API Database
+MySQL database
+
+## Containerized
+
+```
+docker-compose build
+docker-compose up
+```
 ## Resource CRUD Endpoints
 
 User 
@@ -13,11 +36,12 @@ Sensor
 CORS Restricted, API-Key + Secret, TLS, Logging
 SqlInjection filtering
 
-## Setup
+## Manual Setup
+
+To setup manually, copy the SQL into a new DB and edit the .env file accordingly.
 
 In MySQL:
  - Import the DB_SETUP.sql into a new DB
- - Add a user for the API execution - only allow SELECT, INSERT, UPDATE, DELETE
 
 Copy .env.example into new file .env and edit:
 
@@ -40,4 +64,4 @@ py app.py
 
 # Add a new user
 
-POSTMAN:  localhost:8889
+POSTMAN:  localhost:5010
