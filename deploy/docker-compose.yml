@@ -4,7 +4,7 @@ networks:
 services:
   db:
     build:
-      context: ./mysql
+      context: ../mysql
     restart: always
     environment:
       MYSQL_DATABASE: db
@@ -28,7 +28,7 @@ services:
     networks:
       - autogroai      
   apiservice:
-    build: ./apiService/
+    build: ../apiService/
     depends_on:
       - db
     restart: always
