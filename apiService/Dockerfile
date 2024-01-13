@@ -12,7 +12,7 @@ COPY requirements.txt .
 
 # Copy the content of the local src directory to the working directory
 COPY ./*.py .
-COPY ./.env .
+COPY ./.env.example ./.env
 COPY resources/ ./resources
 COPY tools/ ./tools 
 
