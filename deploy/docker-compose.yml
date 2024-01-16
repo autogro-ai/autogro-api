@@ -3,20 +3,18 @@ networks:
     driver: bridge
 services:
   db:
+    container_name: db
     build:
       context: ../mysql
     restart: always
-    environment:
-      MYSQL_DATABASE: db
-      MYSQL_ROOT_PASSWORD: password1234
     ports:
       - 3306:3306
-    volumes:
-      - ../mysql/sql_scripts:/docker-entrypoint-initdb.d
     networks:
       - autogroai
   phpmyadmin:
-    image: phpmyadmin
+    container_name: phpmyadmin
+    build:
+      context: ../mysql/phpmyadmin
     depends_on:
       - db
     restart: always
@@ -29,6 +27,7 @@ services:
       - autogroai      
   apiservice:
     build: ../apiService/
+    container_name: apiService
     depends_on:
       - db
     restart: always

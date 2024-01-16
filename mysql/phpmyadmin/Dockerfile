@@ -1,0 +1,4 @@
+FROM phpmyadmin:latest
+ENV MYSQL_DATABASE=db
+ENV MYSQL_ROOT_PASSWORD=password1234
+EXPOSE 80
