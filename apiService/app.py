@@ -26,6 +26,10 @@ def load_apis():
     from resources.gro_instances import groinstances_api 
     app.register_blueprint(groinstances_api)    
 
+    from resources.gro_component_types import gro_component_types_api 
+    app.register_blueprint(gro_component_types_api)    
+
+
 
 
 

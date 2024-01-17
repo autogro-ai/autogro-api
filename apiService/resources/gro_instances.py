@@ -39,9 +39,12 @@ def og_autogro_sensor():
     return json.dumps(json_data)
 
 
+########## V1 API Adapter #############
+
 ########### OG Pump ###########
 @groinstances_api.route('/og_pump_autogro', methods=["GET"])
 def og_pump_autogro():
+
     page = request.args.get('page', default=1, type=int)
     items_per_page = 100
     db = g.dbog
