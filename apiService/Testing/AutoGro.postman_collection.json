@@ -48,15 +48,15 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
+							"raw": "{\n    \"firstName\" : \"fffffffff\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
 						},
 						"url": {
-							"raw": "{{ag_api_url}}/growmodels",
+							"raw": "{{ag_api_url}}/users",
 							"host": [
 								"{{ag_api_url}}"
 							],
 							"path": [
-								"growmodels"
+								"users"
 							]
 						}
 					},
@@ -68,10 +68,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ag_api_url}}/users",
+							"raw": "{{ag_api_url}}:5020/users",
 							"host": [
 								"{{ag_api_url}}"
 							],
+							"port": "5020",
 							"path": [
 								"users"
 							]
@@ -370,7 +371,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\" : \"Harrison\",\n    \"modelNumber\" : \"1\",\n    \"modelVersion\" : \"0.1\",\n    \"modelCodeName\" : \"Sunrise\",\n    \"modelFamilyName\" : \"Genesis\",\n    \"modelReleaseDate\" : \"12-05-2023 19:00:00\",\n    \"components\" : [\n        {\"componentTypeID\" : \"sensorTemp9001\"},\n        {\"componentTypeID\" : \"sensorSoil0300\"},\n        {\"componentTypeID\" : \"sensorPh4000\"},\n        {\"componentTypeID\" : \"sensorSoil9900\"},\n        {\"componentTypeID\" : \"sensorHum0008\"}\n    ]\n\n}"
+							"raw": "{\n    \"name\" : \"Harrison\",\n    \"modelNumber\" : \"1\",\n    \"modelVersion\" : \"0.1\",\n    \"modelCodeName\" : \"Sunrise\",\n    \"modelFamilyName\" : \"Genesis\",\n    \"modelReleaseDate\" : \"12-05-2023 19:00:00\",\n    \"components\" : [\n        {\"componentTypeID\" : \"sensorTemp9001\"},\n        {\"componentTypeID\" : \"sensorSoil0300\"},\n        {\"componentTypeID\" : \"sensorPh4000\"},\n        {\"componentTypeID\" : \"sensorSoil9900\"},\n        {\"componentTypeID\" : \"sensorHum8000\"}\n    ]\n\n}"
 						},
 						"url": {
 							"raw": "{{ag_api_url}}/gromodels",
@@ -484,7 +485,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\" : \"Harrison\",\n    \"modelNumber\" : \"1\",\n    \"modelVersion\" : \"0.1\",\n    \"modelCodeName\" : \"Sunrise\",\n    \"modelFamilyName\" : \"Genesis\",\n    \"modelReleaseDate\" : \"12-05-2023 19:00:00\",\n    \"components\" : [\n        {\"componentTypeID\" : \"sensorTemp99999\"},\n        {\"componentTypeID\" : \"sensorSoil0300\"},\n        {\"componentTypeID\" : \"sensorPh4000\"},\n        {\"componentTypeID\" : \"sensorSoil9900\"},\n        {\"componentTypeID\" : \"sensorHum0008\"}\n    ]\n\n}"
+							"raw": "{\n    \"name\" : \"Conway\",\n    \"modelNumber\" : \"2\",\n    \"modelVersion\" : \"0.1\",\n    \"modelCodeName\" : \"Sunrise\",\n    \"modelFamilyName\" : \"Genesis\",\n    \"modelReleaseDate\" : \"12-05-2023 19:00:00\",\n    \"components\" : [\n        {\"componentTypeID\" : \"sensorTemp99999\"},\n        {\"componentTypeID\" : \"sensorSoil0300\"},\n        {\"componentTypeID\" : \"sensorPh4000\"},\n        {\"componentTypeID\" : \"sensorSoil9900\"},\n        {\"componentTypeID\" : \"sensorHum0008\"}\n    ]\n\n}"
 						},
 						"url": {
 							"raw": "{{ag_api_url}}/gromodels/1",
@@ -533,6 +534,212 @@
 								"gromodels",
 								"1",
 								"Activate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "old",
+			"item": [
+				{
+					"name": "GET Sensor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/xxx",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"xxx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SetSensorData",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "soil_1_wet",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "soil_2_wet",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "soil_3_wet",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "soil_4_wet",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "soil_5_wet",
+									"value": "0",
+									"type": "text"
+								},
+								{
+									"key": "tds",
+									"value": "2.4",
+									"type": "text"
+								},
+								{
+									"key": "ph",
+									"value": "2.4",
+									"type": "text"
+								},
+								{
+									"key": "accessed",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/xxx",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"xxx"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GroComponentTypes",
+			"item": [
+				{
+					"name": "List All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_component_types",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_component_types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_component_types/2",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_component_types",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"flowMeter\",\n    \"measurementTypes\" : [{ \"id\": \"1\", \"title\": \"rotations\", \"dataType\": \"int\"}],\n    \"defaultSettings\" : [{\"name\": \"serialNumber\", \"value\": \"0001\"}]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_component_types",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_component_types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete 1",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_component_types/2",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_component_types",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_component_types/2/Activate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_component_types",
+								"2",
+								"Activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeActivate",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_component_types/1/Deactivate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_component_types",
+								"1",
+								"Deactivate"
 							]
 						}
 					},
