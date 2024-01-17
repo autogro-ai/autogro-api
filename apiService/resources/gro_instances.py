@@ -1,11 +1,80 @@
+import json
 from flask import Blueprint, g, jsonify, request
 from tools.email_sender import EmailSender
 from enums import MessageType
 
-groinstances_api = Blueprint('groinstances', __name__) 
+groinstances_api = Blueprint('gro_instances', __name__) 
+
+# List
+@groinstances_api.route('/gro_devices', methods=['GET'])
+def list_groinstances():
+    db = g.db
+    cursor = g.db.cursor()
+    cursor.execute('SELECT * from gro_instances')
+    # Fetch all rows as a list of dictionaries
+    columns = [col[0] for col in cursor.description]
+    data = [dict(zip(columns, row)) for row in cursor.fetchall()]
+    return jsonify(data)
+
+
+# Create
+@groinstances_api.route('/gro_devices', methods=['POST']) 
+def create_gro_component_type():
+    cursor = g.db.cursor()
+    gro_component_typeData = request.get_json();
+
+    name = gro_component_typeData['name']
+    ownerID = gro_component_typeData['ownerID']   
+    serialNumber = gro_component_typeData['serialNumber']
+    modelID = gro_component_typeData['modelID']
+    accessPolicy = json.dumps(gro_component_typeData['accessPolicy'])
+
+    components = json.dumps(gro_component_typeData['components']) 
+
+    cursor.execute('INSERT INTO gro_instances (ownerID, name, serialNumber, components, accessPolicy, modelID) VALUES (%s, %s, %s, %s, %s, %s)', (ownerID, name, serialNumber, components, accessPolicy, modelID))
+    
+    createdID = cursor.lastrowid
+
+    g.db.commit()
+
+    return jsonify({'GRO Device ID': createdID, 'message': 'Gro Device created successfully'}), 201
+
+
+# Update  
+@groinstances_api.route('/gro_devices/<int:id>', methods=['PUT'])
+def update_gro_componentType(id):
+    cursor = g.db.cursor()    
+    
+    query = """
+            UPDATE gro_instances  
+            SET
+            name = IF( %(new_name)s <> name, %(new_name)s, name), 
+            serialNumber = IF( %(new_serialNumber)s <> serialNumber, %(new_serialNumber)s, serialNumber), 
+            components = IF( %(new_components)s <> components, %(new_components)s, components),
+            accessPolicy = IF( %(new_accessPolicy)s <> accessPolicy, %(new_accessPolicy)s, accessPolicy), 
+            modelID = IF( %(new_modelID)s <> modelID, %(new_modelID)s, modelID) 
+            WHERE instanceID = %(instanceID)s
+            """
+
+    data = {  
+        "new_name": request.json['name'],
+        "new_serialNumber": request.json['serialNumber'],
+        "new_components": json.dumps(request.json['components']),
+        "new_accessPolicy": json.dumps(request.json['accessPolicy']),
+        "new_modelID": request.json['modelID'],        
+        "instanceID": id
+    }
+    
+    cursor.execute(query, data)    
+
+    g.db.commit()
+    msg = 'Gro Device Instance updated successfully'
+
+    return jsonify({'message': msg})
+
 
 # ASSIGN USER TO DEVICE
-@groinstances_api.route('/grodevices/<int:instanceID>/AssignOwner/<int:ownerID>', methods=['PUT'])  
+@groinstances_api.route('/gro_devices/<int:instanceID>/AssignOwner/<int:ownerID>', methods=['PUT'])  
 def device_assign_user(instanceID, ownerID):
 
     accessPolicyData = request.get_json();
@@ -21,7 +90,7 @@ def device_assign_user(instanceID, ownerID):
     return jsonify({'message': 'User assigned to gro instance'})
 
 ##### GET Device Component Data for g_autogro_sensor #####
-@groinstances_api.route('/growdevices/<string:deviceID>/components/<string:componentTypeID>/<string:componentID>', methods=["GET"])
+@groinstances_api.route('/gro_devices/<string:deviceID>/components/<string:componentTypeID>/<string:componentID>', methods=["GET"])
 def og_autogro_sensor():
     holder_data = []
     cursor = g.db.cursor()

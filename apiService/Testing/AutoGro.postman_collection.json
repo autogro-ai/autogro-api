@@ -68,11 +68,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ag_api_url}}:5020/users",
+							"raw": "{{ag_api_url}}/users",
 							"host": [
 								"{{ag_api_url}}"
 							],
-							"port": "5020",
 							"path": [
 								"users"
 							]
@@ -163,16 +162,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstName\" : \"T111est\",\n    \"lastName\" : \"Use111rsnf\",\n    \"emailAddress\" : \"te11st.user@autogroai.com\"\n}"
+							"raw": "{\n    \"firstName\" : \"Steve\",\n    \"lastName\" : \"Switty\",\n    \"emailAddress\" : \"steve@autogroai.com\"\n}"
 						},
 						"url": {
-							"raw": "{{ag_api_url}}/users/1",
+							"raw": "{{ag_api_url}}/users/6",
 							"host": [
 								"{{ag_api_url}}"
 							],
 							"path": [
 								"users",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -526,14 +525,183 @@
 							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
 						},
 						"url": {
-							"raw": "{{ag_api_url}}/gromodels/1/Activate",
+							"raw": "{{ag_api_url}}/gro_devices/1/AssignOwner/1",
 							"host": [
 								"{{ag_api_url}}"
 							],
 							"path": [
-								"gromodels",
+								"gro_devices",
+								"1",
+								"AssignOwner",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GroInstance",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"Harrison\",\n    \"ownerID\" : 1,\n    \"modelVersion\" : \"0.1\",\n    \"serialNumber\" : \"Sunrise\",\n    \"modelID\" : \"1\",\n    \"components\" : [\n        {\"componentTypeID\" : \"1\"},\n        {\"componentTypeID\" : \"2\"}\n    ],\n    \"accessPolicy\" : [\n        {\"aa1\" : \"1\"},\n        {\"bb2\" : \"2\"}\n    ]\n\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-length": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{ag_api_url}}/groinstances/1/Deactivate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"groinstances",
+								"1",
+								"Deactivate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\" : \"Test\",\n    \"lastName\" : \"User\",\n    \"emailAddress\" : \"test.user@autogroai.com\"\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/groinstances/1/Activate",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"groinstances",
 								"1",
 								"Activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"h2\",\n    \"serialNumber\" : \"Sunrise\",\n    \"modelID\" : \"1\",\n    \"components\" : [\n        {\"componentTypeID\" : \"1\"},\n        {\"componentTypeID\" : \"2\"}\n    ],\n    \"accessPolicy\" : [\n        {\"aa1\" : \"1\"},\n        {\"bb2\" : \"2\"}\n    ]\n\n}"
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1"
 							]
 						}
 					},

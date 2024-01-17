@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jan 17, 2024 at 09:44 PM
+-- Generation Time: Jan 17, 2024 at 11:14 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.14
 
@@ -63,12 +63,19 @@ INSERT INTO `gro_component_types` (`componentTypeID`, `name`, `measurementTypes`
 CREATE TABLE `gro_instances` (
   `instanceID` int NOT NULL,
   `ownerID` int NOT NULL,
+  `name` varchar(30) NOT NULL,
   `serialNumber` varchar(255) NOT NULL,
-  `deviceModelID` int DEFAULT NULL,
-  `components` mediumtext,
-  `accessPolicy` text COMMENT '{\r\n ownerID: int, \r\n access: [\r\n   { userID: int, \r\n     access: string \r\n   }\r\n ]\r\n\r\n}',
+  `components` json DEFAULT NULL,
+  `accessPolicy` json DEFAULT NULL COMMENT '{\r\n ownerID: int, \r\n access: [\r\n   { userID: int, \r\n     access: string \r\n   }\r\n ]\r\n\r\n}',
   `modelID` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Dumping data for table `gro_instances`
+--
+
+INSERT INTO `gro_instances` (`instanceID`, `ownerID`, `name`, `serialNumber`, `components`, `accessPolicy`, `modelID`) VALUES
+(1, 1, 'h2', 'Sunrise', '[{\"componentTypeID\": \"1\"}, {\"componentTypeID\": \"2\"}]', '[{\"aa1\": \"1\"}, {\"bb2\": \"2\"}]', 1);
 
 -- --------------------------------------------------------
 
@@ -117,8 +124,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userID`, `active`, `FirstName`, `LastName`, `EmailAddress`, `devicesInActive`, `devicesActive`) VALUES
-(1, 0, 'T111est', 'Use111rsnf', 'te11st.user@autogroai.com', NULL, NULL),
-(6, 0, 'Test', 'User', 'test.user@autogroai.com', NULL, NULL);
+(1, 0, 'Sam', 'Winstead', 'support@autogroai.com', NULL, NULL),
+(6, 0, 'Steve', 'Switty', 'steve@autogroai.com', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -189,7 +196,7 @@ ALTER TABLE `gro_component_types`
 -- AUTO_INCREMENT for table `gro_instances`
 --
 ALTER TABLE `gro_instances`
-  MODIFY `instanceID` int NOT NULL AUTO_INCREMENT;
+  MODIFY `instanceID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `gro_models`
