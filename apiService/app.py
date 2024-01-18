@@ -29,6 +29,9 @@ def load_apis():
     from resources.gro_component_types import gro_component_types_api 
     app.register_blueprint(gro_component_types_api)    
 
+    from resources.gro_component_data import gro_component_data_api 
+    app.register_blueprint(gro_component_data_api)        
+
 
 
 

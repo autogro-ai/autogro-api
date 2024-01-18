@@ -325,6 +325,66 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ReportComponentData",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var moment = require('moment');",
+									"",
+									"pm.environment.set('currentdate', moment().format((\"MM-DD-YYYY HH:mm:ss\")));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"1000\",\n    \"componentTypeID\" : \"1\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"77\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"scheduled update\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRecent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/getComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"getComponentData"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -578,7 +638,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\" : \"Harrison\",\n    \"ownerID\" : 1,\n    \"modelVersion\" : \"0.1\",\n    \"serialNumber\" : \"Sunrise\",\n    \"modelID\" : \"1\",\n    \"components\" : [\n        {\"componentTypeID\" : \"1\"},\n        {\"componentTypeID\" : \"2\"}\n    ],\n    \"accessPolicy\" : [\n        {\"aa1\" : \"1\"},\n        {\"bb2\" : \"2\"}\n    ]\n\n}"
+							"raw": "{\n    \"name\" : \"Harrison\",\n    \"ownerID\" : 1,\n    \"modelVersion\" : \"0.1\",\n    \"serialNumber\" : \"Sunrise\",\n    \"modelID\" : \"1\",\n    \"components\" : [\n        {\"componentTypeID\" : \"1\",\n         \"componentID\" : \"1000\",\n         \"serialNumber\": \"0111\",\n         \"installDate\": \"01-01-2023 15:00:00\",\n         \"active\" : 0,\n         \"lastUpdated\": \"01-07-2023 15:00:00\",\n         \"tag\" : \"needs repair\"\n         },\n        {\"componentTypeID\" : \"1\",\n        \"componentID\" : \"1001\",\n        \"serialNumber\": \"00222\",\n        \"installDate\": \"01-07-2023 17:00:00\",\n        \"active\" : 0,\n        \"tag\" : \"replacement part\"\n        },\n        {\"componentTypeID\" : \"2\",\n        \"componentID\" : \"2001\",\n        \"serialNumber\": \"321333\",\n        \"installDate\": \"01-01-2023 15:00:00\",\n        \"active\" : 0,\n        \"tag\" : \"new install\"\n        }\n    ],\n    \"accessPolicy\" : [\n        {\"aa1\" : \"1\"},\n        {\"bb2\" : \"2\"}\n    ]\n\n}"
 						},
 						"url": {
 							"raw": "{{ag_api_url}}/gro_devices",
@@ -627,13 +687,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{ag_api_url}}/groinstances/1/Deactivate",
+							"raw": "{{ag_api_url}}/gro_devices/2/Deactivate",
 							"host": [
 								"{{ag_api_url}}"
 							],
 							"path": [
-								"groinstances",
-								"1",
+								"gro_devices",
+								"2",
 								"Deactivate"
 							]
 						}
