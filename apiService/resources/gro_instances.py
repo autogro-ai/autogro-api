@@ -1,3 +1,4 @@
+import datetime
 import json
 from flask import Blueprint, g, jsonify, request
 from tools.email_sender import EmailSender
@@ -72,6 +73,34 @@ def update_gro_componentType(id):
 
     return jsonify({'message': msg})
 
+#Health Check
+@groinstances_api.route('/gro_devices/<int:instanceID>/health', methods=['GET'])  
+def device_healthCheck(instanceID):
+    cursor = g.db.cursor()
+    query = f'SELECT lastUpdate FROM gro_instances WHERE instanceID={instanceID}'
+    cursor.execute(query)
+
+    health = cursor.fetchone()
+
+    if health:
+        # Assuming 'lastUpdate' is a datetime column, convert it to string if needed
+        last_update_str = health[0].strftime('%Y-%m-%d %H:%M:%S') if health[0] else None
+        return jsonify({'lastUpdate': last_update_str})
+
+
+
+#Heartbeat
+@groinstances_api.route('/gro_devices/<int:instanceID>/heartbeat', methods=['PUT'])  
+def device_heartBeat(instanceID):
+
+    db = g.db
+    cursor = g.db.cursor()
+    query = 'UPDATE `gro_instances` SET `lastUpdate`=NOW() WHERE instanceID=%s'
+    cursor.execute(query, (instanceID,))
+
+    g.db.commit()
+
+    return [], 201
 
 # ASSIGN USER TO DEVICE
 @groinstances_api.route('/gro_devices/<int:instanceID>/AssignOwner/<int:ownerID>', methods=['PUT'])  

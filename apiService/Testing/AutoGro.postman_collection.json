@@ -766,6 +766,44 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/health",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "heartbeat",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/heartbeat",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"heartbeat"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
