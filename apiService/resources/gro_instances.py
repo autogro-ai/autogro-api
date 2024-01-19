@@ -138,21 +138,33 @@ def og_autogro_sensor():
 
 
 ########## V1 API Adapter #############
+'''
+This code takes in the old format and breaks out into the correct component entry
+There will be one entry into gro_data_1 for each sensor type
+
+'''
 
 ########### OG Pump ###########
 @groinstances_api.route('/og_pump_autogro', methods=["GET"])
 def og_pump_autogro():
 
+    cursor = g.db.cursor()    
     page = request.args.get('page', default=1, type=int)
     items_per_page = 100
-    db = g.dbog
-    cur = g.dbog.cursor()
+    
+
     # Calculate the offset based on the page number and items per page
     offset = (page - 1) * items_per_page
-    # Retrieve the data for the current page
-    cur.execute(f'SELECT pump_status,flow_meter_rotations, valve_1, valve_2, valve_3, valve_4, valve_5, CAST(accessed AS CHAR) AS accessed_str FROM og_pump_autogro ORDER BY id DESC LIMIT 100')
-    row_headers=[x[0] for x in cur.description] #this will extract row headers
-    results = cur.fetchall()
+
+    sqlStatement = f"SELECT MAX(CASE WHEN componentTypeID=6 THEN data END) as pump_status, MAX(CASE WHEN componentTypeID = 2 THEN data END) AS flow_meter_rotations, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5001 THEN data END) AS valve_1, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5002 THEN data END) AS valve_2, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5003 THEN data END) AS valve_3, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5004 THEN data END) AS valve_4, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5005 THEN data END) AS valve_5, '1' AS accessed_str FROM gro_data_1 WHERE data IS NOT NULL;"
+    
+    cursor.execute(sqlStatement)
+
+
+    #cursor.execute(f'SELECT pump_status,flow_meter_rotations, valve_1, valve_2, valve_3, valve_4, valve_5, CAST(accessed AS CHAR) AS accessed_str FROM og_pump_autogro ORDER BY id DESC LIMIT 100')
+
+    row_headers=[x[0] for x in cursor.description] #this will extract row headers
+    results = cursor.fetchall()
     print(results)
     # holder_data = holders_schema.dump(results)
     json_data=[]
@@ -160,14 +172,6 @@ def og_pump_autogro():
         json_data.append(dict(zip(row_headers,result)))
     return jsonify(json_data)
     return json.dumps(json_data)
-
-    # row_headers = [x[0] for x in cur.description]
-    # results = cur.fetchall()
-    # json_data = []
-    # for result in results:
-    #     json_data.append(dict(zip(row_headers, result)))
-    # return jsonify(json_data)
-    # return json.dumps(json_data)
 
 ##### OG Send Sensor Data #####
 @groinstances_api.route("/autogro_send_sensor_data", methods=["POST"])
