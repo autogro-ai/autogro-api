@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jan 18, 2024 at 03:21 AM
+-- Generation Time: Jan 19, 2024 at 11:28 PM
 -- Server version: 8.2.0
 -- PHP Version: 8.2.14
 
@@ -36,7 +36,12 @@ CREATE TABLE `gro_component_types` (
 --
 
 INSERT INTO `gro_component_types` (`componentTypeID`, `name`, `measurementTypes`, `defaultSettings`, `active`) VALUES
-(2, 'flowMeter', '[{\"id\": \"1\", \"title\": \"rotations\", \"dataType\": \"int\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1);
+(2, 'flowMeter', '[{\"id\": \"1\", \"title\": \"rotations\", \"dataType\": \"int\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1),
+(3, 'phSensor', '[{\"id\": \"1\", \"title\": \"level\", \"dataType\": \"decimal\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1),
+(4, 'soilSensor', '[{\"id\": \"1\", \"title\": \"level\", \"dataType\": \"decimal\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1),
+(5, 'valve', '[{\"id\": \"1\", \"title\": \"status\", \"dataType\": \"boolean\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1),
+(6, 'waterPump', '[{\"id\": \"1\", \"title\": \"status\", \"dataType\": \"boolean\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1),
+(7, 'TDS', '[{\"id\": \"1\", \"title\": \"ppm\", \"dataType\": \"int\"}]', '[{\"name\": \"serialNumber\", \"value\": \"0001\"}]', 1);
 
 -- --------------------------------------------------------
 
@@ -60,14 +65,28 @@ CREATE TABLE `gro_data_1` (
 --
 
 INSERT INTO `gro_data_1` (`id`, `deviceID`, `componentID`, `componentTypeID`, `measurementType`, `data`, `timestamp`, `tag`) VALUES
-(14, 1, 1000, 1, 1, '77', '2024-01-17 20:42:36', 'scheduled update'),
-(15, 1, 1000, 1, 1, '77', '2024-01-17 20:42:39', 'scheduled update'),
-(16, 1, 1000, 1, 1, '77', '2024-01-17 20:42:40', 'scheduled update'),
-(17, 1, 1000, 1, 1, '77', '2024-01-17 20:42:41', 'scheduled update'),
-(18, 1, 1000, 1, 1, '77', '2024-01-17 20:42:42', 'scheduled update'),
-(19, 1, 1000, 1, 1, '77', '2024-01-17 20:43:16', 'scheduled update'),
-(20, 1, 1000, 1, 1, '77', '2024-01-17 20:43:18', 'scheduled update'),
-(21, 1, 1000, 1, 1, '77', '2024-01-17 20:43:21', 'scheduled update');
+(34, 1, 4000, 4, 1, '.102', '2024-01-17 21:28:09', 'wet'),
+(35, 1, 3000, 3, 1, '7.8', '2024-01-17 21:28:09', 'alarm high'),
+(36, 1, 4000, 4, 1, '3000', '2024-01-17 21:28:09', 'Running since: 01-17-2024 21:28:09 '),
+(37, 1, 5001, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(38, 1, 5001, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(39, 1, 5005, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(40, 1, 5001, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(41, 1, 5002, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(42, 1, 5004, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(43, 1, 5005, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(44, 1, 5003, 5, 1, 'True', '2024-01-17 21:28:09', ''),
+(45, 1, 6000, 6, 1, 'True', '2024-01-17 21:28:09', 'pump turned on at 01-17-2024 21:28:09'),
+(46, 1, 6000, 6, 1, 'False', '2024-01-17 21:28:09', 'pump turned on at 01-17-2024 21:28:09'),
+(47, 1, 2000, 2, 1, '3000', '2024-01-17 21:28:09', 'Running since: 01-17-2024 21:28:09 '),
+(48, 1, 7000, 7, 1, '458', '2024-01-17 21:28:09', 'ppm looking great'),
+(50, 1, 4001, 4, 1, '.102', '2024-01-17 21:28:09', 'wet'),
+(51, 1, 4004, 4, 1, '.0001', '2024-01-17 21:28:09', 'wet'),
+(52, 1, 4001, 4, 1, '.102', '2024-01-17 21:28:09', 'wet'),
+(53, 1, 4002, 4, 1, '.102', '2024-01-17 21:28:09', 'wet'),
+(54, 1, 4003, 4, 1, '.102', '2024-01-17 21:28:09', 'wet'),
+(55, 1, 4005, 4, 1, '.102', '2024-01-17 21:28:09', 'wet'),
+(56, 1, 4004, 4, 1, '.102', '2024-01-17 21:28:09', 'wet');
 
 -- --------------------------------------------------------
 
@@ -212,13 +231,13 @@ ALTER TABLE `user_api_keys`
 -- AUTO_INCREMENT for table `gro_component_types`
 --
 ALTER TABLE `gro_component_types`
-  MODIFY `componentTypeID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `componentTypeID` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `gro_data_1`
 --
 ALTER TABLE `gro_data_1`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `gro_instances`
@@ -255,6 +274,4 @@ ALTER TABLE `user_api_keys`
   ADD CONSTRAINT `user_api_keys_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
 COMMIT;
 
-
 CREATE USER 'agapi'@'%' IDENTIFIED BY 'password1234!agapi'; GRANT SELECT, INSERT, UPDATE, DELETE ON autogro.* TO 'agapi'@'%'; REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 20000 MAX_CONNECTIONS_PER_HOUR 100 MAX_UPDATES_PER_HOUR 10000 MAX_USER_CONNECTIONS 100;
-
