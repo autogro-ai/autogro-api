@@ -118,15 +118,29 @@ def device_assign_user(instanceID, ownerID):
 
     return jsonify({'message': 'User assigned to gro instance'})
 
-##### GET Device Component Data for g_autogro_sensor #####
-@groinstances_api.route('/gro_devices/<string:deviceID>/components/<string:componentTypeID>/<string:componentID>', methods=["GET"])
+
+#########################################
+##########  V1 API Adapter  #############
+#########################################
+'''
+This code takes in the old format and breaks out into the correct component entry
+There will be one entry into gro_data_1 for each sensor type
+'''
+
+#########################################
+##########  v1 GET SENSOR DATA  #############
+#########################################
+
+@groinstances_api.route('/og_autogro_sensor', methods=["GET"])
 def og_autogro_sensor():
     holder_data = []
     cursor = g.db.cursor()
 
-    cursor.execute('SELECT soil_1_wet, soil_2_wet, soil_3_wet, soil_4_wet, soil_5_wet, tds, ph, CAST(accessed AS CHAR) AS accessed_str FROM sensor_data_autogro ORDER BY id DESC LIMIT 100')
-    row_headers=[x[0] for x in cur.description] #this will extract row headers
-    results = cur.fetchall()
+    sqlStatement = f"SELECT MAX(CASE WHEN componentTypeID=4 AND componentID=4001 THEN data END) as soil_1_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4002 THEN data END) as soil_2_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4003 THEN data END) as soil_3_wet, MAX(CASE WHEN componentTypeID=4 AND componentID=4004 THEN data END) as soil_4_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4005 THEN data END) as soil_5_wet, MAX(CASE WHEN componentTypeID=7 THEN data END) as tds,  MAX(CASE WHEN componentTypeID=3 THEN data END) as ph FROM gro_data_1 WHERE data IS NOT NULL"
+
+    cursor.execute(sqlStatement)
+    row_headers=[x[0] for x in cursor.description] #this will extract row headers
+    results = cursor.fetchall()
     print(results)
     # holder_data = holders_schema.dump(results)
     print(holder_data)
@@ -135,16 +149,13 @@ def og_autogro_sensor():
         json_data.append(dict(zip(row_headers,result)))
     return jsonify(json_data)
     return json.dumps(json_data)
+# new format @groinstances_api.route('/gro_devices/<string:deviceID>/components/<string:componentTypeID>/<string:componentID>', methods=["GET"])
 
 
-########## V1 API Adapter #############
-'''
-This code takes in the old format and breaks out into the correct component entry
-There will be one entry into gro_data_1 for each sensor type
+###########################################
+##########  V1 GET PUMP DATA  #############
+###########################################
 
-'''
-
-########### OG Pump ###########
 @groinstances_api.route('/og_pump_autogro', methods=["GET"])
 def og_pump_autogro():
 
@@ -160,8 +171,7 @@ def og_pump_autogro():
     
     cursor.execute(sqlStatement)
 
-
-    #cursor.execute(f'SELECT pump_status,flow_meter_rotations, valve_1, valve_2, valve_3, valve_4, valve_5, CAST(accessed AS CHAR) AS accessed_str FROM og_pump_autogro ORDER BY id DESC LIMIT 100')
+    # OG cursor.execute(f'SELECT pump_status,flow_meter_rotations, valve_1, valve_2, valve_3, valve_4, valve_5, CAST(accessed AS CHAR) AS accessed_str FROM og_pump_autogro ORDER BY id DESC LIMIT 100')
 
     row_headers=[x[0] for x in cursor.description] #this will extract row headers
     results = cursor.fetchall()
@@ -172,6 +182,10 @@ def og_pump_autogro():
         json_data.append(dict(zip(row_headers,result)))
     return jsonify(json_data)
     return json.dumps(json_data)
+
+########################################
+##### DEVICE POSTING HANDLERS ########
+########################################
 
 ##### OG Send Sensor Data #####
 @groinstances_api.route("/autogro_send_sensor_data", methods=["POST"])
@@ -227,7 +241,7 @@ def autogro_send_pump_data():
         db.close()
     return "Deprecated: autogro_send_pump_data sent succesfully"
 
-
+########################################
 
 ####TEST for APP #####
 ######### OG AutoGro Send Pump Data#########
