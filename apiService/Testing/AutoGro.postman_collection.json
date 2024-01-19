@@ -310,24 +310,137 @@
 			"name": "sensors",
 			"item": [
 				{
-					"name": "og_pump_autogro",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{ag_api_url}}/og_pump_autogro",
-							"host": [
-								"{{ag_api_url}}"
-							],
-							"path": [
-								"og_pump_autogro"
-							]
+					"name": "PythonAnywhere",
+					"item": [
+						{
+							"name": "Get Data",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Send Sensor",
+							"request": {
+								"method": "POST",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Send Pump",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "ReportComponentData",
+					"name": "V1 API Bridge",
+					"item": [
+						{
+							"name": "V1 Send Sensor Data",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "soil_1_wet",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "soil_2_wet",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "soil_3_wet",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "soil_4_wet",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "soil_5_wet",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "tds",
+											"value": "2.4",
+											"type": "text"
+										},
+										{
+											"key": "ph",
+											"value": "2.4",
+											"type": "text"
+										},
+										{
+											"key": "accessed",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ag_api_url}}/autogro_send_sensor_data",
+									"host": [
+										"{{ag_api_url}}"
+									],
+									"path": [
+										"autogro_send_sensor_data"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "V1 Get Pump Data",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ag_api_url}}/og_pump_autogro",
+									"host": [
+										"{{ag_api_url}}"
+									],
+									"path": [
+										"og_pump_autogro"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "V1 Get Sensor Data",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{ag_api_url}}/og_autogro_sensor",
+									"host": [
+										"{{ag_api_url}}"
+									],
+									"path": [
+										"og_autogro_sensor"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Template - ReportComponentData",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -346,7 +459,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"1000\",\n    \"componentTypeID\" : \"1\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"77\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"scheduled update\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"9801\",\n    \"componentTypeID\" : \"9000\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".0012\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -381,6 +494,454 @@
 								"gro_devices",
 								"1",
 								"getComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soil 1 Wet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4001\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soil 2 Wet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4002\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soil 3 Wet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4003\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soil 4 Wet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4004\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soil 4 Dry",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4004\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".0001\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soil 5 Wet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4005\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update PH",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"3000\",\n    \"componentTypeID\" : \"3\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"7.8\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"alarm high\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update TDS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"7000\",\n    \"componentTypeID\" : \"7\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"458\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"ppm looking great\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Flowmeter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"2000\",\n    \"componentTypeID\" : \"2\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"3000\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"Running since: {{currentdate}} \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 1 OPEN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5001\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 2 OPEN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5002\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 3 OPEN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5003\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 4 OPEN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5004\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 5 OPEN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5005\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pump ON",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"6000\",\n    \"componentTypeID\" : \"6\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"pump turned on at {{currentdate}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Pump OFF",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"6000\",\n    \"componentTypeID\" : \"6\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"False\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"pump turned on at {{currentdate}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
 							]
 						}
 					},
