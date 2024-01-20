@@ -313,15 +313,45 @@
 					"name": "PythonAnywhere",
 					"item": [
 						{
-							"name": "Get Data",
+							"name": "Get Sensor Data",
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [],
+								"url": {
+									"raw": "autogro.pythonanywhere.com/og_autogro_sensor",
+									"host": [
+										"autogro",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"og_autogro_sensor"
+									]
+								}
 							},
 							"response": []
 						},
 						{
-							"name": "Send Sensor",
+							"name": "Get Pump Data",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "autogro.pythonanywhere.com/og_pump_autogro",
+									"host": [
+										"autogro",
+										"pythonanywhere",
+										"com"
+									],
+									"path": [
+										"og_pump_autogro"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Send Sensor Data",
 							"request": {
 								"method": "POST",
 								"header": []
@@ -329,9 +359,9 @@
 							"response": []
 						},
 						{
-							"name": "Send Pump",
+							"name": "Send Pump Data",
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": []
 							},
 							"response": []
@@ -351,42 +381,37 @@
 									"formdata": [
 										{
 											"key": "soil_1_wet",
-											"value": "1",
+											"value": "77",
 											"type": "text"
 										},
 										{
 											"key": "soil_2_wet",
-											"value": "1",
+											"value": "66",
 											"type": "text"
 										},
 										{
 											"key": "soil_3_wet",
-											"value": "1",
+											"value": "44",
 											"type": "text"
 										},
 										{
 											"key": "soil_4_wet",
-											"value": "0",
+											"value": "44",
 											"type": "text"
 										},
 										{
 											"key": "soil_5_wet",
-											"value": "0",
+											"value": "44",
 											"type": "text"
 										},
 										{
 											"key": "tds",
-											"value": "2.4",
+											"value": "345353534",
 											"type": "text"
 										},
 										{
 											"key": "ph",
-											"value": "2.4",
-											"type": "text"
-										},
-										{
-											"key": "accessed",
-											"value": "1",
+											"value": "2222",
 											"type": "text"
 										}
 									]
@@ -398,6 +423,63 @@
 									],
 									"path": [
 										"autogro_send_sensor_data"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "V1 Send Pump Data",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "valve_1",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "valve_2",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "valve_3",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "valve_4",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "valve_5",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "pump_status",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "flow_meter_rotation",
+											"value": "44",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{ag_api_url}}/autogro_send_pump_data",
+									"host": [
+										"{{ag_api_url}}"
+									],
+									"path": [
+										"autogro_send_pump_data"
 									]
 								}
 							},
@@ -506,7 +588,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4001\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4001\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -534,7 +616,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4002\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4002\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -562,7 +644,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4003\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4003\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -590,7 +672,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4004\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4004\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -618,7 +700,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4004\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".0001\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4004\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"12\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -646,7 +728,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4005\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \".102\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"4005\",\n    \"componentTypeID\" : \"4\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"99\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"wet\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -758,7 +840,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5001\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5001\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -786,7 +868,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5002\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5002\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -814,7 +896,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5003\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5003\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -842,7 +924,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5004\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5004\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -870,7 +952,63 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5005\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5005\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 3 CLOSED",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5003\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"0\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ag_api_url}}/gro_devices/1/reportComponentData",
+							"host": [
+								"{{ag_api_url}}"
+							],
+							"path": [
+								"gro_devices",
+								"1",
+								"reportComponentData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Valve 4 50%",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"5004\",\n    \"componentTypeID\" : \"5\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"50\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -898,7 +1036,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"6000\",\n    \"componentTypeID\" : \"6\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"True\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"pump turned on at {{currentdate}}\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"6000\",\n    \"componentTypeID\" : \"6\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"100\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"pump turned on at {{currentdate}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -926,7 +1064,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"6000\",\n    \"componentTypeID\" : \"6\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"False\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"pump turned on at {{currentdate}}\"\n}",
+							"raw": "{\n    \"deviceID\" : \"1\",\n    \"componentID\" : \"6000\",\n    \"componentTypeID\" : \"6\",\n    \"measurementType\" : \"1\",\n    \"data\" : \"0\",\n    \"timestamp\": \"{{currentdate}}\",\n    \"tag\": \"pump turned on at {{currentdate}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

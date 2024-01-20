@@ -10,11 +10,11 @@ def list_recent(deviceID):
     db = g.db
     cursor = g.db.cursor()
     cursor.execute(f'SELECT * FROM gro_data_{deviceID} LIMIT 100')
-    
-    # Fetch all rows as a list of dictionaries
+
+    # Fetch all rows as a list of dictionaries without modifying the timestamp
     columns = [col[0] for col in cursor.description]
     data = [dict(zip(columns, row)) for row in cursor.fetchall()]
-    
+
     return jsonify(data)
 
 # Create

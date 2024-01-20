@@ -136,7 +136,7 @@ def og_autogro_sensor():
     holder_data = []
     cursor = g.db.cursor()
 
-    sqlStatement = f"SELECT MAX(CASE WHEN componentTypeID=4 AND componentID=4001 THEN data END) as soil_1_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4002 THEN data END) as soil_2_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4003 THEN data END) as soil_3_wet, MAX(CASE WHEN componentTypeID=4 AND componentID=4004 THEN data END) as soil_4_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4005 THEN data END) as soil_5_wet, MAX(CASE WHEN componentTypeID=7 THEN data END) as tds,  MAX(CASE WHEN componentTypeID=3 THEN data END) as ph FROM gro_data_1 WHERE data IS NOT NULL"
+    sqlStatement = f"SELECT MAX(timestamp) AS accessed_str,  MAX(CASE WHEN componentTypeID=3 THEN data END) as ph, MAX(CASE WHEN componentTypeID=4 AND componentID=4001 THEN data END) as soil_1_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4002 THEN data END) as soil_2_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4003 THEN data END) as soil_3_wet, MAX(CASE WHEN componentTypeID=4 AND componentID=4004 THEN data END) as soil_4_wet,  MAX(CASE WHEN componentTypeID=4 AND componentID=4005 THEN data END) as soil_5_wet, MAX(CASE WHEN componentTypeID=7 THEN data END) as tds FROM gro_data_1 WHERE data IS NOT NULL"
 
     cursor.execute(sqlStatement)
     row_headers=[x[0] for x in cursor.description] #this will extract row headers
@@ -167,7 +167,7 @@ def og_pump_autogro():
     # Calculate the offset based on the page number and items per page
     offset = (page - 1) * items_per_page
 
-    sqlStatement = f"SELECT MAX(CASE WHEN componentTypeID=6 THEN data END) as pump_status, MAX(CASE WHEN componentTypeID = 2 THEN data END) AS flow_meter_rotations, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5001 THEN data END) AS valve_1, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5002 THEN data END) AS valve_2, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5003 THEN data END) AS valve_3, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5004 THEN data END) AS valve_4, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5005 THEN data END) AS valve_5, '1' AS accessed_str FROM gro_data_1 WHERE data IS NOT NULL;"
+    sqlStatement = f"SELECT MAX(CASE WHEN componentTypeID=6 THEN data END) as pump_status, MAX(CASE WHEN componentTypeID = 2 THEN data END) AS flow_meter_rotations, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5001 THEN data END) AS valve_1, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5002 THEN data END) AS valve_2, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5003 THEN data END) AS valve_3, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5004 THEN data END) AS valve_4, MAX(CASE WHEN componentTypeID = 5 AND componentID = 5005 THEN data END) AS valve_5, DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s') AS accessed_str FROM gro_data_1 WHERE data IS NOT NULL;"
     
     cursor.execute(sqlStatement)
 
@@ -184,14 +184,14 @@ def og_pump_autogro():
     return json.dumps(json_data)
 
 ########################################
-##### DEVICE POSTING HANDLERS ########
+##### V1 DEVICE POSTING HANDLERS ########
 ########################################
 
 ##### OG Send Sensor Data #####
 @groinstances_api.route("/autogro_send_sensor_data", methods=["POST"])
 def autogro_send_sensor_data():
-    db = g.dbog
-    cur = g.dbog.cursor()
+
+    cursor = g.db.cursor()
     soil_1_wet = request.form.get("soil_1_wet")
     soil_2_wet = request.form.get("soil_2_wet")
     soil_3_wet = request.form.get("soil_3_wet")
@@ -199,71 +199,86 @@ def autogro_send_sensor_data():
     soil_5_wet = request.form.get("soil_5_wet")
     tds = request.form.get("tds")
     ph = request.form.get("ph")
-    accessed = request.form.get("accessed")
-    now = datetime.datetime.now()
-    # print(f"Received form data: handles={handles}, count={count}, accessed={accessed}")
-    try:
-        cur.execute('INSERT INTO sensor_data_autogro (soil_1_wet, soil_2_wet, soil_3_wet, soil_4_wet, soil_5_wet, tds, ph, accessed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (soil_1_wet, soil_2_wet, soil_3_wet, soil_4_wet, soil_5_wet, tds, ph, accessed))
-        conn.commit()
-        print("Deprecated: autogro_send_sensor_data successfully")
-    except Exception as e:
-        print("Error inserting data:", e)
-        conn.rollback()
-    finally:
-        cur.close()
-        conn.close()
-    return "Deprecated: autogro_send_sensor_data data inserted correctly"
+
+    deviceID = 1
+    tag = "using api v1"
+
+    db = g.db
+    cursor = g.db.cursor()
+
+
+    data = [
+        (1, 3000, 3, 1, ph, tag),
+        (1, 7001, 7, 1, tds, tag),
+        (1, 4001, 4, 1, soil_1_wet, tag),
+        (1, 4002, 4, 1, soil_2_wet, tag),
+        (1, 4003, 4, 1, soil_3_wet, tag),
+        (1, 4004, 4, 1, soil_4_wet, tag),
+        (1, 4005, 4, 1, soil_5_wet, tag),        
+    ]
+
+    tableName = f'gro_data_{deviceID}'
+
+    sql = (f'INSERT INTO {tableName} (deviceID, componentID, componentTypeID, measurementType, data, tag) VALUES (%s, %s, %s, %s, %s, %s)')
+  
+    cursor.executemany(sql, data)
+
+
+    updatedRows = []
+    metricID = cursor.lastrowid
+    updatedRows.append(metricID)
+
+    db.commit()
+
+    return updatedRows, 201
 
 
 ######### OG AutoGro Send Pump Data#########
 @groinstances_api.route("/autogro_send_pump_data", methods=["POST"])
 def autogro_send_pump_data():
-    db = g.dbog
-    cur = g.dbog.cursor()
+
+    cursor = g.db.cursor()
     pump_status = request.form.get("pump_status")
     flow_meter_rotation = request.form.get("flow_meter_rotation")
-    print(flow_meter_rotation)
+
     valve_1 = request.form.get("valve_1")
     valve_2 = request.form.get("valve_2")
     valve_3 = request.form.get("valve_3")
     valve_4 = request.form.get("valve_4")
     valve_5 = request.form.get("valve_5")
-    accessed = request.form.get("accessed")
-    try:
-        cur.execute('INSERT INTO og_pump_autogro (pump_status, flow_meter_rotations, valve_1, valve_2, valve_3, valve_4, valve_5, accessed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)', (pump_status, flow_meter_rotation, valve_1, valve_2, valve_3, valve_4, valve_5, accessed))
-        db.commit()
-        print("Deprecated: autogro_send_pump_data sent succesfully")
-    except Exception as e:
-        print("Error inserting data:", e)
-        db.rollback()
-    finally:
-        cur.close()
-        db.close()
-    return "Deprecated: autogro_send_pump_data sent succesfully"
 
-########################################
+    deviceID = 1
+    tag = "using api v1"
+    current_timestamp = datetime.datetime.now()
+    # Format the timestamp as 'YYYY-MM-DD HH:MM:SS'
+    formatted_timestamp = current_timestamp.strftime('%Y-%m-%d %H:%M:%S')
+    
 
-####TEST for APP #####
-######### OG AutoGro Send Pump Data#########
-@groinstances_api.route("/send_data_test", methods=["POST"])
-def send_data_test():
-    db = g.dbog
-    cur = g.dbog.cursor()
-    pump_status = request.json.get("pump_status")
-    flow_meter_rotations = request.json.get("flow_meter_rotations")
-    valve_1 = request.json.get("valve_1")
-    accessed = request.json.get("accessed")
-    print('Pump status: ', pump_status)
-    try:
-        cur.execute('INSERT INTO send_data_test (pump_status, flow_meter_rotations, valve_1, accessed) VALUES (%s, %s, %s, %s)', (pump_status, flow_meter_rotations, valve_1, accessed))
-        db.commit()
-        print("Data inserted successfully")
-    except Exception as e:
-        print("Error inserting data:", e)
-        db.rollback()
-    finally:
-        cur.close()
-        db.close()
-    return "Data inserted successfully"
+    db = g.db
+    cursor = g.db.cursor()
 
 
+    data = [
+        (1, 5001, 5, 1, valve_1, formatted_timestamp, tag),
+        (1, 5002, 5, 1, valve_2, formatted_timestamp, tag),
+        (1, 5003, 5, 1, valve_3, formatted_timestamp, tag),
+        (1, 5004, 5, 1, valve_4, formatted_timestamp, tag),
+        (1, 5005, 5, 1, valve_5, formatted_timestamp, tag),                             
+        (1, 2001, 2, 1, flow_meter_rotation, formatted_timestamp, tag),
+        (1, 6001, 6, 1, pump_status, formatted_timestamp, tag)   
+    ]
+
+    tableName = f'gro_data_{deviceID}'
+
+    sql = (f'INSERT INTO {tableName} (deviceID, componentID, componentTypeID, measurementType, data, timestamp, tag) VALUES (%s, %s, %s, %s, %s, %s, %s)')
+  
+    cursor.executemany(sql, data)
+
+
+    updatedRows = []
+    metricID = cursor.lastrowid
+    updatedRows.append(metricID)
+
+    db.commit()
+
+    return updatedRows, 201
