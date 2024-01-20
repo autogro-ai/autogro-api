@@ -13,20 +13,6 @@ def get_db():
             database=Config.dbName
         )
     return db
-def get_db_OG():
-    
-    if 'dbog' not in g:
-        dbog = mysql.connector.connect(
-            host=Config.dbHostName,
-            port=Config.dbPortNumber,
-            user=Config.dbOGUser,
-            password=Config.dbOGPassword, 
-            database=Config.dbOGName
-        )
-    return dbog
 
 def close_db(db):
     db.close()
-
-def close_dbog(db):
-    db.close()    

@@ -1,7 +1,7 @@
 import os
 from flask import Flask, g
 from config import Config
-from db import get_db, get_db_OG
+from db import get_db
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,17 +32,12 @@ def load_apis():
     from resources.gro_component_data import gro_component_data_api 
     app.register_blueprint(gro_component_data_api)        
 
-
-
-
-
 # Attach the get_db function to the application context
 @app.before_request
 def before_request():
     db = getattr(g, 'db', None)
     if db is None:    
         g.db = get_db()
-        #g.dbog = get_db_OG()
 
 @app.teardown_request
 def teardown_request(exception):
@@ -50,10 +45,6 @@ def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
         db.close()    
-    ''' dbog = getattr(g, 'dbog', None)
-    if dbog is not None:
-        dbog.cursor().close()           
-    '''
 
 if __name__ == '__main__':
     app.config['AG_RUN_MODE'] = os.getenv('AG_RUN_MODE', 'development')
